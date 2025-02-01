@@ -15,9 +15,9 @@ import { _t } from "../../../languageHandler";
 const AuthFooter = (): ReactElement => {
     const brandingConfig = SdkConfig.getObject("branding");
     const links = brandingConfig?.get("auth_footer_links") ?? [
-        { text: "A.i.M", url: "https://element.io/blog" },
-        { text: "Ai-Chat", url: "https://mastodon.matrix.org/@Element" },
-        { text: "Sensor", url: "https://github.com/element-hq/element-web" },
+        { text: "A.i.M", url: "https://aimplantchat.store" },
+        { text: "Ai-Chat", url: "https://aimplantchat.store" },
+        { text: "Sensor", url: "https://aimplantchat.store/" },
     ];
 
     const authFooterLinks: JSX.Element[] = [];
@@ -32,7 +32,7 @@ const AuthFooter = (): ReactElement => {
     return (
         <footer className="mx_AuthFooter" role="contentinfo">
             {authFooterLinks}
-            <a href="https://matrix.org" target="_blank" rel="noreferrer noopener">
+            <a href="https://aimplantchat.store/" target="_blank" rel="noreferrer noopener">
                 Powered by A.i.M
             </a>
         </footer>

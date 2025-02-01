@@ -37,7 +37,7 @@ const onClickExplore = (ev: ButtonEvent): void => {
 
 const onClickNewRoom = (ev: ButtonEvent): void => {
     PosthogTrackers.trackInteraction("WebHomeCreateRoomButton", ev);
-    window.location.href = 'https://www.youtube.com/?hl=ko&gl=KR&app=desktop';
+    window.location.href = 'https://aimplantchat.store';
 };
 
 interface IProps {
