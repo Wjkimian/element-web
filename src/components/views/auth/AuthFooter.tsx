@@ -32,7 +32,7 @@ const AuthFooter = (): ReactElement => {
     return (
         <footer className="mx_AuthFooter" role="contentinfo">
             {authFooterLinks}
-            <a href="https://aimplantchat.store/" target="_blank" rel="noreferrer noopener">
+            <a href="https://aimplantchat.store" target="_blank" rel="noreferrer noopener">
                 Powered by A.i.M
             </a>
         </footer>
