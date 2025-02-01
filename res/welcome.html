@@ -1,7 +1,7 @@
 <style type="text/css">
     /* we deliberately inline style here to avoid flash-of-CSS problems, and to avoid
- * voodoo where we have to set display: none by default
- */
+* voodoo where we have to set display: none by default
+*/
 
     h1::after {
         content: "!";
@@ -26,25 +26,20 @@
         -ms-flex-align: center;
         align-items: center;
         text-align: center;
-        padding: 25px 35px;
+        padding: 40px 50px;
         color: #2e2f32;
-        /* 아래 속성들 추가 */
         width: 100%;
-        /* 부모 요소의 전체 너비 사용 */
         min-height: 100vh;
-        /* 뷰포트 높이만큼 최소 높이 설정 */
-        max-width: 1200px;
-        /* 최대 너비 제한 */
+        max-width: 800px;
         margin: 0 auto;
-        /* 가운데 정렬 */
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 10px;
     }
 
     .mx_Logo {
-        height: 120px;
-        /* 54px에서 120px로 증가 */
-        margin-top: 2px;
+        height: 80px;
+        margin-top: 20px;
         width: auto;
-        /* 비율 유지를 위해 width는 자동으로 */
     }
 
     .mx_ButtonGroup {
@@ -64,11 +59,11 @@
         align-items: center;
         justify-content: space-between;
         box-sizing: border-box;
-        margin: 12px 0 0;
+        margin: 20px 0;
     }
 
     .mx_ButtonRow>* {
-        margin: 0 10px;
+        margin: 0 15px;
     }
 
     .mx_ButtonRow>*:first-child {
@@ -99,7 +94,8 @@
         -ms-flex-align: center;
         align-items: center;
         border-radius: 4px;
-        width: 150px;
+        width: 180px;
+        height: 45px;
         background-repeat: no-repeat;
         background-position: 10px center;
         text-decoration: none;
@@ -111,15 +107,15 @@
     }
 
     .mx_Header_title {
-        font-size: 24px;
+        font-size: 32px;
         font-weight: 600;
-        margin: 20px 0 0;
+        margin: 30px 0 0;
     }
 
     .mx_Header_subtitle {
-        font-size: 12px;
+        font-size: 14px;
         font-weight: normal;
-        margin: 8px 0 0;
+        margin: 15px 0 25px;
     }
 
     .mx_ButtonSignIn {
@@ -151,6 +147,51 @@
 
     .mx_Button_iconRoomDirectory {
         background-image: url("welcome/images/icon-room-directory.svg");
+    }
+
+    /*
+.mx_WelcomePage_loggedIn is applied by EmbeddedPage from the Welcome component
+If it is set on the page, we should show the buttons. Otherwise, we have to assume
+we don't have an account and should hide them. No account == no guest account either.
+*/
+    .mx_WelcomePage:not(.mx_WelcomePage_loggedIn) .mx_WelcomePage_guestFunctions {
+        display: none;
+    }
+
+    .mx_ButtonRow.mx_WelcomePage_guestFunctions {
+        margin-top: 20px;
+    }
+
+    .mx_ButtonRow.mx_WelcomePage_guestFunctions>div {
+        margin: 0 auto;
+    }
+
+    @media only screen and (max-width: 480px) {
+        .mx_Parent {
+            padding: 20px;
+            max-width: 100%;
+        }
+
+        .mx_Logo {
+            height: 60px;
+        }
+
+        .mx_Header_title {
+            font-size: 24px;
+        }
+
+        .mx_ButtonParent {
+            width: 160px;
+            margin: 10px 0;
+        }
+
+        .mx_ButtonRow {
+            flex-direction: column;
+        }
+
+        .mx_ButtonRow>* {
+            margin: 0 0 10px 0;
+        }
     }
 
     /*
