@@ -28,11 +28,23 @@
         text-align: center;
         padding: 25px 35px;
         color: #2e2f32;
+        /* 아래 속성들 추가 */
+        width: 100%;
+        /* 부모 요소의 전체 너비 사용 */
+        min-height: 100vh;
+        /* 뷰포트 높이만큼 최소 높이 설정 */
+        max-width: 1200px;
+        /* 최대 너비 제한 */
+        margin: 0 auto;
+        /* 가운데 정렬 */
     }
 
     .mx_Logo {
-        height: 54px;
+        height: 120px;
+        /* 54px에서 120px로 증가 */
         margin-top: 2px;
+        width: auto;
+        /* 비율 유지를 위해 width는 자동으로 */
     }
 
     .mx_ButtonGroup {
@@ -171,7 +183,7 @@ we don't have an account and should hide them. No account == no guest account ei
 
 <div class="mx_Parent">
     <a href="#" target="_blank" rel="noopener">
-        <img src="themes/element/img/logos/aim-logo.jpg" alt="" class="mx_Logo" width="auto" height="600"/>
+        <img src="themes/element/img/logos/aim-logo.jpg" alt="" class="mx_Logo" />
     </a>
     <h1 class="mx_Header_title">Welcome to A.I.M</h1>
     <!-- XXX: Our translations system isn't smart enough to recognize variables in the HTML, so we manually do it -->
