@@ -15,9 +15,9 @@ import { _t } from "../../../languageHandler";
 const AuthFooter = (): ReactElement => {
     const brandingConfig = SdkConfig.getObject("branding");
     const links = brandingConfig?.get("auth_footer_links") ?? [
-        { text: "Blog", url: "https://element.io/blog" },
-        { text: "Mastodon", url: "https://mastodon.matrix.org/@Element" },
-        { text: "GitHub", url: "https://github.com/element-hq/element-web" },
+        { text: "AiM", url: "https://element.io/blog" },
+        { text: "Ai-Chat", url: "https://mastodon.matrix.org/@Element" },
+        { text: "Sensor", url: "https://github.com/element-hq/element-web" },
     ];
 
     const authFooterLinks: JSX.Element[] = [];
@@ -33,7 +33,7 @@ const AuthFooter = (): ReactElement => {
         <footer className="mx_AuthFooter" role="contentinfo">
             {authFooterLinks}
             <a href="https://matrix.org" target="_blank" rel="noreferrer noopener">
-                {_t("powered_by_matrix")}
+                {_t("powered_by_AiM")}
             </a>
         </footer>
     );
