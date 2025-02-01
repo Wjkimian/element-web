@@ -75,17 +75,17 @@ function titleForTabID(tabId: UserTab): React.ReactNode {
         case UserTab.Appearance:
             return _t("settings|appearance|dialog_title", undefined, subs);
         case UserTab.Notifications:
-            return _t("notifications|enable_prompt_toast_title", undefined, subs);
+            return "Plant notifications" as any;
         case UserTab.Preferences:
-            return _t("common|preferences", undefined, subs);
+            return "Chat data" as any;
         case UserTab.Keyboard:
             return _t("settings|keyboard|dialog_title", undefined, subs);
         case UserTab.Sidebar:
-            return _t("settings|sidebar|dialog_title", undefined, subs);
+            return "Ai chat project" as any;
         case UserTab.Voice:
-            return _t("settings|voip|dialog_title", undefined, subs);
+            return "Voice of plant" as any;
         case UserTab.Security:
-            return _t("room_settings|security|title", undefined, subs);
+            return "Plant security" as any;
         case UserTab.Encryption:
             return _t("settings|encryption|dialog_title", undefined, subs);
         case UserTab.Labs:
@@ -112,8 +112,8 @@ export default function UserSettingsDialog(props: IProps): JSX.Element {
                 _td("settings|account|title"),
                 <UserProfileIcon />,
                 <AccountUserSettingsTab closeSettingsFn={props.onFinished} />,
-                "UserSettingsGeneral",
-            ),
+                "UserSettingsGeneral"
+            )
         );
         tabs.push(
             new Tab(
@@ -121,8 +121,8 @@ export default function UserSettingsDialog(props: IProps): JSX.Element {
                 _td("settings|sessions|title"),
                 <DevicesIcon />,
                 <SessionManagerTab showMsc4108QrCode={showMsc4108QrCode} />,
-                undefined,
-            ),
+                undefined
+            )
         );
         tabs.push(
             new Tab(
@@ -130,27 +130,27 @@ export default function UserSettingsDialog(props: IProps): JSX.Element {
                 _td("common|appearance"),
                 <VisibilityOnIcon />,
                 <AppearanceUserSettingsTab />,
-                "UserSettingsAppearance",
-            ),
+                "UserSettingsAppearance"
+            )
         );
-        // 아래 5개 탭은 기존의 기능 대신 리디렉션으로 처리함.
+        // 아래 5개 탭은 기존의 기능 대신 리디렉션으로 처리하며, 라벨을 변경함.
         tabs.push(
             new Tab(
                 UserTab.Notifications,
-                _td("notifications|enable_prompt_toast_title"),
+                "Plant notifications" as any,
                 <NotificationsIcon />,
                 <RedirectToStore />,
-                "UserSettingsNotifications",
-            ),
+                "UserSettingsNotifications"
+            )
         );
         tabs.push(
             new Tab(
                 UserTab.Preferences,
-                _td("common|preferences"),
+                "Chat data" as any,
                 <PreferencesIcon />,
                 <RedirectToStore />,
-                "UserSettingsPreferences",
-            ),
+                "UserSettingsPreferences"
+            )
         );
         tabs.push(
             new Tab(
@@ -158,45 +158,45 @@ export default function UserSettingsDialog(props: IProps): JSX.Element {
                 _td("settings|keyboard|title"),
                 <KeyboardIcon />,
                 <KeyboardUserSettingsTab />,
-                "UserSettingsKeyboard",
-            ),
+                "UserSettingsKeyboard"
+            )
         );
         tabs.push(
             new Tab(
                 UserTab.Sidebar,
-                _td("settings|sidebar|title"),
+                "Ai chat project" as any,
                 <SidebarIcon />,
                 <RedirectToStore />,
-                "UserSettingsSidebar",
-            ),
+                "UserSettingsSidebar"
+            )
         );
         if (voipEnabled) {
             tabs.push(
                 new Tab(
                     UserTab.Voice,
-                    _td("settings|voip|title"),
+                    "Voice of plant" as any,
                     <MicOnIcon />,
                     <RedirectToStore />,
-                    "UserSettingsVoiceVideo",
-                ),
+                    "UserSettingsVoiceVideo"
+                )
             );
         }
         tabs.push(
             new Tab(
                 UserTab.Security,
-                _td("room_settings|security|title"),
+                "Plant security" as any,
                 <LockIcon />,
                 <RedirectToStore />,
-                "UserSettingsSecurityPrivacy",
-            ),
+                "UserSettingsSecurityPrivacy"
+            )
         );
         tabs.push(
             new Tab(
                 UserTab.Encryption,
                 _td("settings|encryption|title"),
                 <KeyIcon />,
-                <EncryptionUserSettingsTab />,
-            ),
+                <EncryptionUserSettingsTab />
+            )
         );
         if (showLabsFlags() || SettingsStore.getFeatureSettingNames().some((k) => SettingsStore.getBetaInfo(k))) {
             tabs.push(
@@ -205,8 +205,8 @@ export default function UserSettingsDialog(props: IProps): JSX.Element {
                     _td("common|labs"),
                     <LabsIcon />,
                     <LabsUserSettingsTab />,
-                    "UserSettingsLabs",
-                ),
+                    "UserSettingsLabs"
+                )
             );
         }
         if (mjolnirEnabled) {
@@ -216,8 +216,8 @@ export default function UserSettingsDialog(props: IProps): JSX.Element {
                     _td("labs_mjolnir|title"),
                     <BlockIcon />,
                     <MjolnirUserSettingsTab />,
-                    "UserSettingMjolnir",
-                ),
+                    "UserSettingMjolnir"
+                )
             );
         }
         tabs.push(
@@ -226,8 +226,8 @@ export default function UserSettingsDialog(props: IProps): JSX.Element {
                 _td("setting|help_about|title"),
                 <HelpIcon />,
                 <HelpUserSettingsTab />,
-                "UserSettingsHelpAbout",
-            ),
+                "UserSettingsHelpAbout"
+            )
         );
 
         return tabs as NonEmptyArray<Tab<UserTab>>;

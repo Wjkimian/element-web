@@ -12,9 +12,6 @@ import { logger } from "matrix-js-sdk/src/logger";
 import { _t } from "../../../languageHandler";
 import { MatrixClientPeg } from "../../../MatrixClientPeg";
 import PlatformPeg from "../../../PlatformPeg";
-import Modal from "../../../Modal";
-import SdkConfig from "../../../SdkConfig";
-import BugReportDialog from "../dialogs/BugReportDialog";
 import AccessibleButton from "./AccessibleButton";
 
 interface Props {
@@ -26,32 +23,28 @@ interface IState {
 }
 
 /**
- * This error boundary component can be used to wrap large content areas and
- * catch exceptions during rendering in the component tree below them.
+ * 이 ErrorBoundary 컴포넌트는 자식 컴포넌트 트리에서 발생한 예외를 잡아내어
+ * 에러 발생 시 메시지를 표시합니다.
  */
 export default class ErrorBoundary extends React.PureComponent<Props, IState> {
     public constructor(props: Props) {
         super(props);
-
         this.state = {};
     }
 
     public static getDerivedStateFromError(error: Error): Partial<IState> {
-        // Side effects are not permitted here, so we only update the state so
-        // that the next render shows an error message.
+        // 사이드 이펙트가 허용되지 않으므로, 단순히 상태를 업데이트하여 다음 렌더링 시 에러 메시지를 표시합니다.
         return { error };
     }
 
     public componentDidCatch(error: Error, { componentStack }: ErrorInfo): void {
-        // Browser consoles are better at formatting output when native errors are passed
-        // in their own `console.error` invocation.
+        // 에러를 콘솔에 로깅합니다.
         logger.error(error);
-        logger.error("The above error occurred while React was rendering the following components:", componentStack);
+        logger.error("다음 컴포넌트 렌더링 중 에러가 발생했습니다:", componentStack);
     }
 
     private onClearCacheAndReload = (): void => {
         if (!PlatformPeg.get()) return;
-
         MatrixClientPeg.safeGet().stopClient();
         MatrixClientPeg.safeGet()
             .store.deleteAllData()
@@ -60,64 +53,16 @@ export default class ErrorBoundary extends React.PureComponent<Props, IState> {
             });
     };
 
-    private onBugReport = (): void => {
-        Modal.createDialog(BugReportDialog, {
-            label: "react-soft-crash",
-            error: this.state.error,
-        });
-    };
-
     public render(): ReactNode {
         if (this.state.error) {
-            const newIssueUrl = SdkConfig.get().feedback.new_issue_url;
-
-            let bugReportSection;
-            if (SdkConfig.get().bug_report_endpoint_url) {
-                bugReportSection = (
-                    <React.Fragment>
-                        <p>
-                            {_t(
-                                "bug_reporting|create_new_issue",
-                                {},
-                                {
-                                    newIssueLink: (sub) => {
-                                        return (
-                                            <a target="_blank" rel="noreferrer noopener" href={newIssueUrl}>
-                                                {sub}
-                                            </a>
-                                        );
-                                    },
-                                },
-                            )}
-                        </p>
-                        <p>
-                            {_t("bug_reporting|introduction")}
-                            &nbsp;
-                            {_t("bug_reporting|description")}
-                        </p>
-                        <AccessibleButton onClick={this.onBugReport} kind="primary">
-                            {_t("bug_reporting|submit_debug_logs")}
-                        </AccessibleButton>
-                    </React.Fragment>
-                );
-            }
-
-            let clearCacheButton: JSX.Element | undefined;
-            // we only show this button if there is an initialised MatrixClient otherwise we can't clear the cache
-            if (MatrixClientPeg.get()) {
-                clearCacheButton = (
-                    <AccessibleButton onClick={this.onClearCacheAndReload} kind="danger">
-                        {_t("setting|help_about|clear_cache_reload")}
-                    </AccessibleButton>
-                );
-            }
-
+            // 에러 발생 시 "Ready to go!" 메시지와 버튼을 표시합니다.
             return (
                 <div className="mx_ErrorBoundary">
                     <div className="mx_ErrorBoundary_body">
-                        <h1>{_t("error|something_went_wrong")}</h1>
-                        {bugReportSection}
-                        {clearCacheButton}
+                        <h1>Are You Ready?</h1>
+                        <AccessibleButton onClick={this.onClearCacheAndReload} kind="primary">
+                            Ready to go!
+                        </AccessibleButton>
                     </div>
                 </div>
             );
