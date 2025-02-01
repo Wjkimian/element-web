@@ -278,16 +278,16 @@ export default class UserMenu extends React.Component<IProps, IState> {
                     )}
                     {SettingsStore.getValue(UIFeature.Registration)
                         ? _t(
-                              "auth|create_account_prompt",
-                              {},
-                              {
-                                  a: (sub) => (
-                                      <AccessibleButton kind="link_inline" onClick={this.onRegisterClick}>
-                                          {sub}
-                                      </AccessibleButton>
-                                  ),
-                              },
-                          )
+                            "auth|create_account_prompt",
+                            {},
+                            {
+                                a: (sub) => (
+                                    <AccessibleButton kind="link_inline" onClick={this.onRegisterClick}>
+                                        {sub}
+                                    </AccessibleButton>
+                                ),
+                            },
+                        )
                         : null}
                 </div>
             );
@@ -330,12 +330,12 @@ export default class UserMenu extends React.Component<IProps, IState> {
                 <IconizedContextMenuOption
                     iconClassName="mx_UserMenu_iconBell"
                     label={_t("notifications|enable_prompt_toast_title")}
-                    onClick={(e) => this.onSettingsOpen(e, UserTab.Notifications)}
+                    onClick={(e) => this.onSettingsOpen(e)}
                 />
                 <IconizedContextMenuOption
                     iconClassName="mx_UserMenu_iconLock"
                     label={_t("room_settings|security|title")}
-                    onClick={(e) => this.onSettingsOpen(e, UserTab.Security)}
+                    onClick={(e) => this.onSettingsOpen(e)}
                 />
                 <IconizedContextMenuOption
                     iconClassName="mx_UserMenu_iconSettings"

