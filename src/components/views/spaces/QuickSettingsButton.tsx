@@ -33,13 +33,17 @@ import { SdkContextClass } from "../../../contexts/SDKContext";
 const QuickSettingsButton: React.FC<{
     isPanelCollapsed: boolean;
 }> = ({ isPanelCollapsed = false }) => {
-    const [menuDisplayed, handle, openMenu, closeMenu] = useContextMenu<HTMLDivElement>();
+    const [menuDisplayed, handle, , closeMenu] = useContextMenu<HTMLDivElement>();
 
     const { [MetaSpace.Favourites]: favouritesEnabled, [MetaSpace.People]: peopleEnabled } =
         useSettingValue("Spaces.enabledMetaSpaces");
 
     const currentRoomId = SdkContextClass.instance.roomViewStore.getRoomId();
     const developerModeEnabled = useSettingValue("developerMode");
+
+    const handleClick = () => {
+        defaultDispatcher.dispatch({ action: Action.ViewUserSettings });
+    };
 
     let contextMenu: JSX.Element | undefined;
     if (menuDisplayed && handle.current) {
@@ -125,7 +129,7 @@ const QuickSettingsButton: React.FC<{
         <>
             <AccessibleButton
                 className={classNames("mx_QuickSettingsButton", { expanded: !isPanelCollapsed })}
-                onClick={openMenu}
+                onClick={handleClick}
                 aria-label={_t("quick_settings|title")}
                 title={isPanelCollapsed ? _t("quick_settings|title") : undefined}
                 ref={handle}

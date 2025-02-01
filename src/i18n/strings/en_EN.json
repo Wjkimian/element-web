@@ -1635,7 +1635,7 @@
         "m.key.verification.request": "%(name)s is requesting verification"
     },
     "onboarding": {
-        "create_room": "Create a Group Chat",
+        "create_room": "Direct Conversing with My plant",
         "explore_rooms": "Explore Public Rooms",
         "has_avatar_label": "Great, that'll help people know it's you",
         "intro_byline": "Own your conversations.",

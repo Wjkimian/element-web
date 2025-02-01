@@ -38,6 +38,7 @@ const onClickExplore = (ev: ButtonEvent): void => {
 const onClickNewRoom = (ev: ButtonEvent): void => {
     PosthogTrackers.trackInteraction("WebHomeCreateRoomButton", ev);
     dis.dispatch({ action: "view_create_room" });
+    window.location.href = 'http://localhost:3000';
 };
 
 interface IProps {
